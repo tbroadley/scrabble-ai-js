@@ -1,26 +1,31 @@
 const fs = require('fs');
 const _ = require('lodash');
 
-class Signature {
-  constructor(word) {
-    this.sig = new Uint8Array(26);
-    word.toUpperCase().split('').forEach(c => this.sig[c.charCodeAt(0) - 65] += 1);
+function buildSignature(word) {
+  const signature = new Uint8Array(26);
+  const upperCaseWord = word.toUpperCase();
+  for (let i = 0; i < word.length; i += 1) {
+    signature[upperCaseWord.charCodeAt(i) - 65] += 1;
   }
+  return signature;
+}
 
-  gt(sig) {
-    return this.sig.every((n, i) => n >= sig.sig[i]);
+function signatureGt(sig1, sig2) {
+  for (let i = 0; i < 26; i += 1) {
+    if (sig1[i] < sig2[i]) return false;
   }
+  return true;
 }
 
 class PlayFinder {
   constructor(dictionary) {
-    this.dictionary = dictionary.map(word => ({ word, signature: new Signature(word) }));
+    this.dictionary = dictionary.map(word => ({ word, signature: buildSignature(word) }));
   }
 
   findPlays(word) {
-    const sig = new Signature(word);
+    const sig = buildSignature(word);
     return this.dictionary
-      .filter(({ signature }) => sig.gt(signature))
+      .filter(({ signature }) => signatureGt(sig, signature))
       .map(({ word }) => word);
   }
 }
