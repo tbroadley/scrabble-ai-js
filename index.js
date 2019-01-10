@@ -22,10 +22,10 @@ class PlayFinder {
     this.dictionary = dictionary.map(word => ({ word, signature: buildSignature(word) }));
   }
 
-  findPlays(word) {
-    const sig = buildSignature(word);
+  findPlays(rack) {
+    const rackSignature = buildSignature(rack);
     return this.dictionary
-      .filter(({ signature }) => signatureGte(sig, signature))
+      .filter(({ signature }) => signatureGte(rackSignature, signature))
       .map(({ word }) => word);
   }
 }
