@@ -18,11 +18,19 @@ const tileData = parseTileData(fs.readFileSync('tile-data.txt').toString());
 
 class Bag {
   constructor() {
-    this.bag = _.shuffle(tileData);
+    this.bag = _(tileData)
+      .map(({ letter, frequency, value }) => _.times(frequency, _.constant({ letter, value})))
+      .flatten()
+      .shuffle()
+      .value();
+  }
+
+  isEmpty() {
+    return this.bag.length === 0;
   }
 
   draw(number) {
-    number = _.max([number, this.bag.size]);
+    number = _.min([number, this.bag.length]);
 
     const result = _.take(this.bag, number);
     this.bag = _.drop(this.bag, number);
