@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const GameState = require('./game-state.js');
+const GameState = require('./src/game-state.js');
 
 function main() {
   const dictionary = fs.readFileSync('dictionary.txt').toString().split('\r\n');
