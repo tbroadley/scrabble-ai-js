@@ -10,7 +10,7 @@ function buildSignature(word) {
   return signature;
 }
 
-function signatureGt(sig1, sig2) {
+function signatureGte(sig1, sig2) {
   for (let i = 0; i < 26; i += 1) {
     if (sig1[i] < sig2[i]) return false;
   }
@@ -25,7 +25,7 @@ class PlayFinder {
   findPlays(word) {
     const sig = buildSignature(word);
     return this.dictionary
-      .filter(({ signature }) => signatureGt(sig, signature))
+      .filter(({ signature }) => signatureGte(sig, signature))
       .map(({ word }) => word);
   }
 }
