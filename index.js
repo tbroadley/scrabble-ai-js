@@ -3,7 +3,7 @@ const _ = require('lodash');
 
 class Signature {
   constructor(word) {
-    this.sig = _.range(0, 26).map(_.constant(0));
+    this.sig = new Uint8Array(26);
     word.toUpperCase().split('').forEach(c => this.sig[c.charCodeAt(0) - 65] += 1);
   }
 
