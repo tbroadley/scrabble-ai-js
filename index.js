@@ -1,16 +1,14 @@
 const fs = require('fs');
+const _ = require('lodash');
 
 class Signature {
   constructor(word) {
-    this.sig = word.toUpperCase().split('')
-      .reduce((acc, c) => { acc[c] = acc[c] || 0; acc[c] += 1; return acc }, {});
+    this.sig = _.range(0, 26).map(_.constant(0));
+    word.toUpperCase().split('').forEach(c => this.sig[c.charCodeAt(0) - 65] += 1);
   }
 
   gt(sig) {
-    for (const c in sig.sig) {
-      if (!this.sig[c] || this.sig[c] < sig.sig[c]) return false;
-    }
-    return true;
+    return this.sig.every((n, i) => n >= sig.sig[i]);
   }
 }
 
