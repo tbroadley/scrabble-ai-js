@@ -18,7 +18,7 @@ function signatureGte(sig1, sig2) {
   for (let i = 0; i < 26; i += 1) {
     mismatches += _.max([0, sig2[i] - sig1[i]]);
   }
-  return mismatches <= sig2[BLANK_INDEX];
+  return mismatches <= sig1[BLANK_INDEX];
 }
 
 class PlayFinder {
