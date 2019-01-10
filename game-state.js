@@ -1,17 +1,46 @@
+const AIPlayer = require('./ai-player.js');
 const Bag = require('./bag.js');
 const Board = require('./board.js');
-const Rack = require('./rack.js');
+const PlayFinder = require('./play-finder.js');
+
+const FIRST_TURN = 0;
 
 class GameState {
-  constructor() {
+  constructor(dictionary) {
     this.board = new Board();
     this.bag = new Bag();
     this.players = [];
-    this.turn = 1;
+    this.turn = FIRST_TURN;
+    this.playFinder = new PlayFinder(dictionary);
   }
 
-  addPlayer(name) {
-    this.players.push({ name, rack: new Rack(this.bag) });
+  isFirstTurn() {
+    return this.turn === FIRST_TURN;
+  }
+
+  addAIPlayer(name) {
+    this.players.push(new AIPlayer(name, this));
+  }
+
+  isGameOver() {
+    return this.bag.isEmpty() && (
+      this.players.some(player => player.isRackEmpty()) ||
+      this.players.every(player => player.passedLastTurn)
+    );
+  }
+
+  playTurn() {
+    this.players[this.turn % this.players.length].makeMove();
+    this.turn += 1;
+  }
+
+  playGame() {
+    while (!this.isGameOver()) this.playTurn();
+    this.updateScoresByRemainingTiles();
+  }
+
+  updateScoresByRemainingTiles() {
+    // TODO
   }
 }
 
