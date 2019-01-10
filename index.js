@@ -1,73 +1,36 @@
 const fs = require('fs');
 
-String.prototype.sort = function() { return this.split('').sort().join(''); }
-
-class TrieNode {
-  constructor() {
-    this.children = {};
-    this.indices = [];
+class Signature {
+  constructor(word) {
+    this.sig = word.toUpperCase().split('')
+      .reduce((acc, c) => { acc[c] = acc[c] || 0; acc[c] += 1; return acc }, {});
   }
 
-  addChild(character) {
-    if (!this.children[character]) {
-      this.children[character] = new TrieNode();
+  gt(sig) {
+    for (const c in sig.sig) {
+      if (!this.sig[c] || this.sig[c] < sig.sig[c]) return false;
     }
-    return this.children[character];
-  }
-
-  insert(word, index) {
-    if (word.length === 0) {
-      return;
-    }
-
-    const sortedWord = word.sort();
-    const nextChild = this.addChild(sortedWord.charAt(0));
-    nextChild.insertHelper(sortedWord, 1, index);
-  }
-
-  insertHelper(sortedWord, positionInWord, index) {
-    if (positionInWord === sortedWord.length) {
-      this.indices.push(index);
-    } else {
-      const nextChild = this.addChild(sortedWord.charAt(positionInWord));
-      nextChild.insertHelper(sortedWord, positionInWord + 1, index);
-    }
-  }
-
-  getChildIndices(word) {
-    return this.getChildIndicesHelper(word.toUpperCase().sort(), 0);
-  }
-
-  getChildIndicesHelper(sortedWord, positionInWord) {
-    if (positionInWord === sortedWord.length) {
-      return [];
-    }
-
-    const nextChild = this.children[sortedWord.charAt(positionInWord)];
-    console.log(sortedWord.charAt(positionInWord));
-    console.log(nextChild);
-    const deeperIndices = nextChild.getChildIndicesHelper(sortedWord, positionInWord + 1);
-    return this.indices.concat(deeperIndices);
+    return true;
   }
 }
 
 class PlayFinder {
   constructor(dictionary) {
-    this.trie = new TrieNode();
-    this.dictionary = dictionary;
-
-    dictionary.forEach((word, index) => {
-      this.trie.insert(word, index);
-    });
+    this.dictionary = dictionary.map(word => ({ word, signature: new Signature(word) }));
   }
 
   findPlays(word) {
-    return this.trie.getChildIndices(word).map(index => this.dictionary[index]);
+    const sig = new Signature(word);
+    return this.dictionary
+      .filter(({ signature }) => sig.gt(signature))
+      .map(({ word }) => word);
   }
 }
 
 function main() {
   const dictionary = fs.readFileSync('dictionary.txt').toString().split('\r\n');
+  dictionary.pop();
+
   const finder = new PlayFinder(dictionary);
   console.log(finder.findPlays('recover'));
 }
