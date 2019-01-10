@@ -51,7 +51,7 @@ class TrieNode {
   }
 }
 
-class AnagramTrie {
+class PlayFinder {
   constructor(dictionary) {
     this.trie = new TrieNode();
     this.dictionary = dictionary;
@@ -61,15 +61,15 @@ class AnagramTrie {
     });
   }
 
-  getAnagrams(word) {
+  findPlays(word) {
     return this.trie.getChildIndices(word).map(index => this.dictionary[index]);
   }
 }
 
 function main() {
   const dictionary = fs.readFileSync('dictionary.txt').toString().split('\r\n');
-  const trie = new AnagramTrie(dictionary);
-  console.log(trie.getAnagrams('recover'));
+  const finder = new PlayFinder(dictionary);
+  console.log(finder.findPlays('recover'));
 }
 
 main();
