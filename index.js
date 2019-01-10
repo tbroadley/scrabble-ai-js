@@ -1,5 +1,6 @@
 const fs = require('fs');
 
+const GameState = require('./game-state.js');
 const PlayFinder = require('./play-finder.js');
 
 function main() {
@@ -7,7 +8,13 @@ function main() {
   dictionary.pop();
 
   const finder = new PlayFinder(dictionary);
-  console.log(finder.findPlays('recover'));
+
+  const game = new GameState();
+  game.addPlayer('AI');
+
+  const { tiles } = game.players[0].rack;
+  console.log(tiles);
+  console.log(finder.findPlays(tiles));
 }
 
 main();

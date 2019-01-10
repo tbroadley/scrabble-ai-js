@@ -1,19 +1,24 @@
 const _ = require('lodash');
 
+const BLANK_INDEX = 26;
+
 function buildSignature(word) {
-  const signature = new Uint8Array(26);
+  const signature = new Uint8Array(27);
   const upperCaseWord = word.toUpperCase();
   for (let i = 0; i < word.length; i += 1) {
-    signature[upperCaseWord.charCodeAt(i) - 65] += 1;
+    const charCode = upperCaseWord.charCodeAt(i);
+    const index = charCode === '*'.charCodeAt(0) ? BLANK_INDEX : charCode - 65;
+    signature[index] += 1;
   }
   return signature;
 }
 
 function signatureGte(sig1, sig2) {
+  let mismatches = 0;
   for (let i = 0; i < 26; i += 1) {
-    if (sig1[i] < sig2[i]) return false;
+    mismatches += _.max([0, sig2[i] - sig1[i]]);
   }
-  return true;
+  return mismatches <= sig1[BLANK_INDEX];
 }
 
 class PlayFinder {
@@ -22,7 +27,7 @@ class PlayFinder {
   }
 
   findPlays(rack) {
-    const rackSignature = buildSignature(rack);
+    const rackSignature = buildSignature(_.map(rack, 'letter').join(''));
     return this.dictionary
       .filter(({ signature }) => signatureGte(rackSignature, signature))
       .map(({ word }) => word);
