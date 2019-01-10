@@ -14,7 +14,7 @@ function parseTileData(data) {
   });
 }
 
-const tileData = parseTileData(fs.readFileSync('tile-data.txt').toString());
+const tileData = parseTileData(fs.readFileSync('data/tile-data.txt').toString());
 
 class Bag {
   constructor() {

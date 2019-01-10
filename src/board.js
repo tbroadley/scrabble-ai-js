@@ -1,7 +1,7 @@
 const fs = require('fs');
 const _ = require('lodash');
 
-const boardData = fs.readFileSync('board-data.txt').toString()
+const boardData = fs.readFileSync('data/board-data.txt').toString()
   .split('\n')
   .slice(0, -1)
   .map(line => (line + _.repeat(' ', 15 - line.length)).split(''))
