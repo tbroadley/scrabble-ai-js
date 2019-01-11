@@ -29,9 +29,25 @@ class GameState {
     );
   }
 
+  applyPlay(player, play) {
+    player.rack.play(play);
+    this.board.play(play);
+    player.score += play.getScore();
+  }
+
   playTurn() {
-    this.players[this.turn % this.players.length].makeMove();
+    const playerToPlay = this.players[this.turn % this.players.length];
+
+    console.log(`It's player ${playerToPlay.name}'s turn. Their rack is ${playerToPlay.rack.toString()}.`);
+
+    const play = playerToPlay.getPlay();
+    // TODO handle passing and exchanging
+    this.applyPlay(playerToPlay, play);
     this.turn += 1;
+
+    console.log(`Player ${playerToPlay.name} plays ${play.tiles.map(t => t.letter).join('')} for ${play.getScore()} points.`);
+    console.log(`Player ${playerToPlay.name}'s score is now ${playerToPlay.score}.`);
+    console.log(this.board.toString());
   }
 
   playGame() {

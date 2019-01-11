@@ -29,6 +29,28 @@ class Board {
   at(x, y) {
     return this.board[y][x];
   }
+
+  placeTile(x, y, tile) {
+    this.board[y][x].tile = tile;
+  }
+
+  play({ start: { x, y }, direction, tiles }) {
+    for (let i = 0; i < tiles.length; i += 1) {
+      while (this.at(x, y).tile) {
+        if (direction === Direction.ACROSS) {
+          x += 1;
+        } else {
+          y += 1;
+        }
+      }
+
+      this.placeTile(x, y, tiles[i]);
+    }
+  }
+
+  toString() {
+    return this.board.map(row => row.map(space => space.tile ? space.tile.letter : '-').join('')).join('\n') + '\n';
+  }
 }
 
 module.exports = Board;

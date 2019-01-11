@@ -21,6 +21,18 @@ function signatureGte(sig1, sig2) {
   return mismatches <= sig1[BLANK_INDEX];
 }
 
+function toTiles(word, tiles) {
+  const result = [];
+
+  word.split('').forEach(letter => {
+    const tile = _.find(tiles, { letter }) || _.find(tiles, { letter: '*' });
+    tiles = _.pull(tiles, tile);
+    result.push(tile);
+  });
+
+  return result;
+}
+
 class WordFinder {
   constructor(dictionary) {
     this.dictionary = dictionary.map(word => ({ word, signature: buildSignature(word) }));
@@ -30,9 +42,7 @@ class WordFinder {
     const rackSignature = buildSignature(_.map(rack.tiles, 'letter').join(''));
     return this.dictionary
       .filter(({ signature }) => signatureGte(rackSignature, signature))
-      .map(({ word }) => word.split('')
-        .map(c => _.find(rack.tiles, { letter: c }) ||
-                  _.find(rack.tiles, { letter: '*' })));
+      .map(({ word }) => toTiles(word, _.clone(rack.tiles)));
   }
 }
 

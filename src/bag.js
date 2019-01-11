@@ -19,7 +19,7 @@ const tileData = parseTileData(fs.readFileSync('data/tile-data.txt').toString())
 class Bag {
   constructor() {
     this.bag = _(tileData)
-      .map(({ letter, frequency, value }) => _.times(frequency, _.constant({ letter, value })))
+      .map(({ letter, frequency, value }) => _.times(frequency, number => ({ letter, value, number })))
       .flatten()
       .shuffle()
       .value();

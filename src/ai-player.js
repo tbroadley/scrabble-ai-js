@@ -10,26 +10,27 @@ class AIPlayer {
     this.gameState = gameState;
     this.rack = new Rack(this.gameState.bag);
     this.passedLastTurn = false;
+    this.score = 0;
   }
 
-  makeMove() {
+  // TODO decide what blank should be before returning play
+  // TODO consider exchanging or passing
+  getPlay() {
     if (this.gameState.isFirstTurn()) {
-      this.makeFirstTurnMove();
+      return this.getFirstTurnPlay();
     } else {
       throw 'TODO: implement AI';
     }
   }
 
-  makeFirstTurnMove() {
+  getFirstTurnPlay() {
     const words = this.gameState.wordFinder.findWords(this.rack);
     const plays = _(words)
       .map(word => _.range(0, word.length)
         .map(index => new Play(this.gameState, { x: 7 - index, y: 7 }, Direction.ACROSS, word)))
       .flatten()
       .value();
-    const play = _.maxBy(plays, play => play.getScore());
-    console.log(play);
-    console.log(play.getScore());
+    return _.maxBy(plays, play => play.getScore());
   }
 
   isRackEmpty() {
