@@ -17,7 +17,7 @@ class AIPlayer {
   }
 
   makeFirstTurnMove() {
-    const plays = this.gameState.playFinder.findPlays(this.rack);
+    const words = this.gameState.wordFinder.findWords(this.rack);
     console.log(this.rack.tiles);
     console.log(plays);
     // TODO find best play and play it

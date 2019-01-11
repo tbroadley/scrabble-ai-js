@@ -1,7 +1,7 @@
 const AIPlayer = require('./ai-player.js');
 const Bag = require('./bag.js');
 const Board = require('./board.js');
-const PlayFinder = require('./play-finder.js');
+const WordFinder = require('./word-finder.js');
 
 const FIRST_TURN = 0;
 
@@ -11,7 +11,7 @@ class GameState {
     this.bag = new Bag();
     this.players = [];
     this.turn = FIRST_TURN;
-    this.playFinder = new PlayFinder(dictionary);
+    this.wordFinder = new WordFinder(dictionary);
   }
 
   isFirstTurn() {

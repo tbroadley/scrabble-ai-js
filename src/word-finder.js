@@ -21,12 +21,12 @@ function signatureGte(sig1, sig2) {
   return mismatches <= sig1[BLANK_INDEX];
 }
 
-class PlayFinder {
+class WordFinder {
   constructor(dictionary) {
     this.dictionary = dictionary.map(word => ({ word, signature: buildSignature(word) }));
   }
 
-  findPlays(rack) {
+  findWords(rack) {
     const rackSignature = buildSignature(_.map(rack.tiles, 'letter').join(''));
     return this.dictionary
       .filter(({ signature }) => signatureGte(rackSignature, signature))
@@ -34,4 +34,4 @@ class PlayFinder {
   }
 }
 
-module.exports = PlayFinder;
+module.exports = WordFinder;
