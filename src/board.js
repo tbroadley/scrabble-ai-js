@@ -1,18 +1,14 @@
 const fs = require('fs');
 const _ = require('lodash');
 
+const Direction = require('./direction.js');
+const Play = require('./play.js');
+const TileType = require('./tile-type.js');
+
 const boardData = fs.readFileSync('data/board-data.txt').toString()
   .split('\n')
   .slice(0, -1)
   .map(line => (line + _.repeat(' ', 15 - line.length)).split(''))
-
-const TileType = Object.freeze({
-  NORMAL: 0,
-  DOUBLE_LETTER_SCORE: 1,
-  TRIPLE_LETTER_SCORE: 2,
-  DOUBLE_WORD_SCORE: 3,
-  TRIPLE_WORD_SCORE: 4,
-});
 
 function charToTileType(c) {
   return {
@@ -35,4 +31,4 @@ class Board {
   }
 }
 
-module.exports = { Board, TileType };
+module.exports = Board;

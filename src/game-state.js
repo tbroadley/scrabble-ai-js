@@ -1,6 +1,6 @@
 const AIPlayer = require('./ai-player.js');
 const Bag = require('./bag.js');
-const { Board } = require('./board.js');
+const Board = require('./board.js');
 const WordFinder = require('./word-finder.js');
 
 const FIRST_TURN = 0;

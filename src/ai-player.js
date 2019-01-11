@@ -1,6 +1,7 @@
 const _ = require('lodash');
 
-const { Direction, Play } = require('./play.js');
+const Direction = require('./direction.js');
+const Play = require('./play.js');
 const Rack = require('./rack.js');
 
 class AIPlayer {

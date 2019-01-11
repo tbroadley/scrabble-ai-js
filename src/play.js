@@ -1,9 +1,5 @@
-const { TileType } = require('./board.js');
-
-const Direction = Object.freeze({
-  ACROSS: 0,
-  DOWN: 1,
-});
+const Direction = require('./direction.js');
+const TileType = require('./tile-type.js');
 
 class Play {
   constructor(gameState, start, direction, tiles) {
@@ -50,4 +46,4 @@ class Play {
   }
 }
 
-module.exports = { Play, Direction };
+module.exports = Play;
