@@ -1,3 +1,6 @@
+const _ = require('lodash');
+
+const { Direction, Play } = require('./play.js');
 const Rack = require('./rack.js');
 
 class AIPlayer {
@@ -18,9 +21,14 @@ class AIPlayer {
 
   makeFirstTurnMove() {
     const words = this.gameState.wordFinder.findWords(this.rack);
-    console.log(this.rack.tiles);
-    console.log(plays);
-    // TODO find best play and play it
+    const plays = _(words)
+      .map(word => _.range(0, word.length)
+        .map(index => new Play(this.gameState, { x: 7 - index, y: 7 }, Direction.ACROSS, word)))
+      .flatten()
+      .value();
+    const play = _.maxBy(plays, play => play.getScore());
+    console.log(play);
+    console.log(play.getScore());
   }
 
   isRackEmpty() {

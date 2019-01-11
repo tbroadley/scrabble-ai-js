@@ -30,7 +30,9 @@ class WordFinder {
     const rackSignature = buildSignature(_.map(rack.tiles, 'letter').join(''));
     return this.dictionary
       .filter(({ signature }) => signatureGte(rackSignature, signature))
-      .map(({ word }) => word);
+      .map(({ word }) => word.split('')
+        .map(c => _.find(rack.tiles, { letter: c }) ||
+                  _.find(rack.tiles, { letter: '*' })));
   }
 }
 

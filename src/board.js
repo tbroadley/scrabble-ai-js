@@ -31,8 +31,8 @@ class Board {
   }
 
   at(x, y) {
-    return this.board[y - 1][x - 1];
+    return this.board[y][x];
   }
 }
 
-module.exports = Board;
+module.exports = { Board, TileType };
