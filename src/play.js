@@ -13,6 +13,8 @@ class Play {
     this.tiles = tiles;
   }
 
+  // TODO handle playing through an existing word
+  // TODO handle secondary words
   getScore() {
     let score = 0;
     let wordScoreMultiplier = 1;
